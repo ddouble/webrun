@@ -1168,7 +1168,13 @@ browser</p>
 </blockquote>
 <p>Method 2, Use <code>gunicorn</code> which is recommended for
 production environment by flask document:</p>
-<pre><code>gunicorn -b 0.0.0.0:4443 --keyfile /your/DeployService/cert/server.key --certfile /your/DeployService/cert/server.crt start:app</code></pre>
+<pre><code># generate self-signed ssl certification
+openssl genrsa -out cert/server.key 2048
+openssl req -new -key cert/server.key -out cert/server.csr
+openssl x509 -req -days 3650 -in cert/server.csr -signkey cert/server.key -out cert/server.crt
+
+# start service
+gunicorn -b 0.0.0.0:4443 --keyfile /your/DeployService/cert/server.key --certfile /your/DeployService/cert/server.crt start:app</code></pre>
 <h3 id="access-from-a-browser">Access from a browser</h3>
 <p>It can be accessed from a browser by address:
 <strong>https://your-server:4443</strong></p>
