@@ -30,7 +30,7 @@ Please follow this link to install Python(>=3.9): https://www.python.org/downloa
 
 Install and activate a virtual python environment
 ```
-cd /your/DeploySevice
+cd /your/webrun
 
 # install virtual python environment
 python -m venv .venv
@@ -39,7 +39,7 @@ python -m venv .venv
 ### Activate the virtual python environment
 
 ```
-cd /your/DeploySevice
+cd /your/webrun
 source .venv/bin/activate
 ```
 
@@ -49,7 +49,7 @@ Confirm the python path
 
 `which python`
 
-It should show the path like this: `/your/DeployService/.venv/bin/python ...`
+It should show the path like this: `/your/webrun/.venv/bin/python ...`
 
 ### Install dependent packages
 
@@ -78,7 +78,7 @@ openssl req -new -key cert/server.key -out cert/server.csr
 openssl x509 -req -days 3650 -in cert/server.csr -signkey cert/server.key -out cert/server.crt
 
 # start service
-gunicorn -b 0.0.0.0:44300 --keyfile /your/DeployService/cert/server.key --certfile /your/DeployService/cert/server.crt start:app
+gunicorn -b 0.0.0.0:44300 --keyfile /your/webrun/cert/server.key --certfile /your/webrun/cert/server.crt start:app
 ```
 
 ### Access from a browser
@@ -96,11 +96,11 @@ It can be run as a background service by `supervisord`:
 Just make sure the command which will be added into configuration of `supervisord` as the following:
  
 ```
-/your/DeploySevice/.venv/bin/python /your/DeploySevice/start.py
+/your/webrun/.venv/bin/python /your/webrun/start.py
 ```
 or
 ```
-/your/DeploySevice/.venv/bin/gunicorn -b 0.0.0.0:44300 --keyfile /your/DeployService/cert/server.key --certfile /your/DeployService/cert/server.crt start:app
+/your/webrun/.venv/bin/gunicorn -b 0.0.0.0:44300 --keyfile /your/webrun/cert/server.key --certfile /your/webrun/cert/server.crt start:app
 ```
 
 ## Configuration File
