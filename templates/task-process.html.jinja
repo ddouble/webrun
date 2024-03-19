@@ -1,0 +1,12 @@
+<div class="task-name">{{ data.get("task_name") }}</div>
+{% if data.get("error") %}
+    <div class="error">{{ data.get("error") }}</div>
+{% endif %}
+{% for command_process in data.get("command_process", []) %}
+    <div class="command-process">
+        <div class="exec-time"></div>
+        <div class="command">&gt; <span>{{ command_process.get("command") }}</span></div>
+        <pre class="output">{{ command_process.get("output") }}</pre>
+        <pre class="error-output">{{ command_process.get("error_output") }}</pre>
+    </div>
+{% endfor %}

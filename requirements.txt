@@ -1,0 +1,5 @@
+Flask~=3.0.2
+Flask-HTTPAuth~=4.8.0
+pyOpenSSL~=24.0.0
+Werkzeug~=3.0.1
+gunicorn~=21.2

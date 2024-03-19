@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasks</title>
+    <style>
+        #output {
+            font-family: monospace;
+        }
+
+        .tasks {
+            margin-bottom: 10px;
+        }
+        .tasks .call-task.active {
+            background: blue;
+            color: white;
+            border-color: darkblue;
+        }
+        .tasks .call-task.active[disabled] {
+            opacity: 0.5;
+        }
+
+        .task-name {
+            color: blue;
+            margin-bottom: 10px;
+        }
+
+        .exec-time {
+            color: gray;
+            font-style: italic;
+        }
+
+        .command-process {
+            margin-bottom: 10px;
+        }
+
+        .command {
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="welcome">Welcome {{ user }}</div>
+<div class="tasks">
+    {% for task_name in tasks %}
+        {% set authed_users = tasks.get(task_name, {}).get('users', []) %}
+        {% if '*' in authed_users or user in authed_users %}
+            <button type="button" class="btn call-task"
+                    onclick="onCallTaskButtonClick(this, '{{ task_name }}')">{{ task_name }}</button>
+        {% endif %}
+    {% endfor %}
+</div>
+<div id="output"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function onCallTaskButtonClick(btn, taskName) {
+        $('.tasks .call-task.active').removeClass('active')
+        $(btn).addClass('active')
+
+        // disable buttons
+        $('.tasks .call-task').prop('disabled', true);
+        document.getElementById('output').innerHTML = 'Processing ...';
+
+        // call task
+        $.ajax({
+            url: '/call-task',
+            method: 'post',
+            data: {task: taskName}
+        }).done(function (msg) {
+            document.getElementById('output').innerHTML = msg;
+        }).fail(function (xhr, txtStatus) {
+            document.getElementById('output').innerHTML = txtStatus;
+        }).always(function () {
+            // enable buttons
+            $('.tasks .call-task').prop('disabled', false);
+        });
+
+    }
+</script>
+</body>
+</html>
