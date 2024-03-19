@@ -78,12 +78,12 @@ openssl req -new -key cert/server.key -out cert/server.csr
 openssl x509 -req -days 3650 -in cert/server.csr -signkey cert/server.key -out cert/server.crt
 
 # start service
-gunicorn -b 0.0.0.0:4443 --keyfile /your/DeployService/cert/server.key --certfile /your/DeployService/cert/server.crt start:app
+gunicorn -b 0.0.0.0:44300 --keyfile /your/DeployService/cert/server.key --certfile /your/DeployService/cert/server.crt start:app
 ```
 
 ### Access from a browser
 
-It can be accessed from a browser by address: **https://your-server:4443**
+It can be accessed from a browser by address: **https://your-server:44300**
 
 > The browser would show a warning `Your connection is not private` due to the service uses a self-signed SSL certificate by default for https connection.
 > You can apply a formal certificate (eg: apply from [Let's Encrypt](https://letsencrypt.org)) to eliminate the warning.
@@ -100,7 +100,7 @@ Just make sure the command which will be added into configuration of `supervisor
 ```
 or
 ```
-/your/DeploySevice/.venv/bin/gunicorn -b 0.0.0.0:4443 --keyfile /your/DeployService/cert/server.key --certfile /your/DeployService/cert/server.crt start:app
+/your/DeploySevice/.venv/bin/gunicorn -b 0.0.0.0:44300 --keyfile /your/DeployService/cert/server.key --certfile /your/DeployService/cert/server.crt start:app
 ```
 
 ## Configuration File
